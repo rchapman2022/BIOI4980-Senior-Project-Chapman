@@ -1,0 +1,11 @@
+sample	condition
+2N	N
+2T	T
+16N	N
+16T	T
+29N	N
+29T	T
+183N	N
+183T	T
+202N	N
+202T	T

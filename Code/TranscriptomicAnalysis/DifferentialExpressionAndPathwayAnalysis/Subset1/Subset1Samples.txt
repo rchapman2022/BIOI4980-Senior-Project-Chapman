@@ -1,0 +1,11 @@
+sample	condition
+7N	N
+7T	T
+17N	N
+17T	T
+145N	N
+145T	T
+151N	N
+151T	T
+191N	N
+191T	T
