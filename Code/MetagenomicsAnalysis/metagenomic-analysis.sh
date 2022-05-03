@@ -1,10 +1,8 @@
 #!/bin/bash
 
-# Create a directory for the metagenomics analysis
-mkdir metagenomicAnalysis/
-
 # Create a directory for the raw reads and intermediate data
 mkdir rawData
+cd rawData
 
 # Download the data from ENA (Project accession: PRJEB34333)
 prefetch --option-file ../../PRJEB34333-Accessions.txt
@@ -84,3 +82,54 @@ do
     humann --input $file/$base".unaligned-human.all.fq" --output $file/ --taxonomic-profile $file/$base"-metagenome.txt"
     echo "-------------------------------"
 done
+
+cd ..
+
+# Move Taxonmic Classification results to a results directory
+mkdir TaxClassResults
+cd TaxClassResults
+mkdir TumorResults
+while read sample
+do
+    cp ../rawData/$sample/$sample"-metagenome.txt" TumorResults/
+done < ../Metagenomics-Tumor-Samples.txt
+
+mkdir HealthyResults
+while read sample
+do
+    cp ../rawData/$sample/$sample"-metagenome.txt" HealthyResults/
+done < ../Metagenomics-Healthy-Samples.txt
+
+# Merge Taxonomic Classifications for healthy and tumor samples 
+merge_metaphlan_tables.py TumorResults/*-metagenome.txt > TumorResults/Combined-abundances.txt
+merge_metaphlan_tables.py HealthyResults/*-metagenome.txt > HealthyResults/Combined-abundances.txt
+
+
+cd ..
+
+# Move Metabolic Pathway Analysis results to a results directory
+mkdir MetabolicPathwayResults
+cd MetabolicPathwayResults
+mkdir TumorSamples
+while read sample
+do
+    cp ../rawData/$sample/$sample".unaligned-human."*".tsv" TumorSamples/
+done < ../Metagenomics-Tumor-Samples.txt
+
+mkdir HealthySamples
+while read sample
+do
+    cp ../rawData/$sample/$sample".unaligned-human."*".tsv" HealthySamples/
+done < ../Metagenomics-Healthy-Samples.txt
+
+# Merge Metabolic Pathway Analysis results for healthy and tumor samples
+humann_join_tables -i HealthySamples/ -o healthyTissue_genefamilies.tsv --file_name genefamilies
+humann_join_tables -i HealthySamples/ -o healthyTissue_pathcoverage.tsv --file_name pathcoverage
+humann_join_tables -i HealthySamples/ -o healthyTissue_pathabundance.tsv --file_name pathabundance
+humann_join_tables -i TumorSamples/ -o tumorTissue_genefamilies.tsv --file_name genefamilies
+humann_join_tables -i TumorSamples/ -o tumorTissue_pathcoverage.tsv --file_name pathcoverage
+humann_join_tables -i TumorSamples/ -o tumorTissue_pathabundance.tsv --file_name pathabundance
+
+# Renormalize the genefamilies table to be based on relative abundance
+humann_renorm_table -i healthyTissue_genefamilies.tsv -o healthyTissue_genefamilies-relab.tsv --units relab
+humann_renorm_table -i tumorTissue_genefamilies.tsv -o tumorTissue_genefamilies-relab.tsv --units relab

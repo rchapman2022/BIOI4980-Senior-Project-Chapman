@@ -1,6 +1,16 @@
 # BIOI4980-Senior-Project-Chapman
 
-Code Repository for Ryan Chapman's BIOI4980 Senior Project
+<p align="center">
+  <img style="background-color: rgb(300, 300, 300);" src="https://github.com/rchapman2022/BIOI4980-Senior-Project-Chapman/BIOI4980-Workflow.png">
+</p>
+
+The goal of this project is to compare the microbiome composition and gene expression of Colorectal Cancer in hopes of identifying precursory mechanistic steps for pathogenesis. To accomplish this, both a metagenomic and transcriptomic analysis were conducted using data from published sources:
+
+Metagenomic data: 
+    Debesa-Tur, G., Pérez-Brocal, V., Ruiz-Ruiz, S. et al. Metagenomic analysis of formalin-fixed paraffin-embedded tumor and normal mucosa reveals differences in the microbiome of colorectal cancer patients. Sci Rep 11, 391 (2021). https://doi.org/10.1038/s41598-020-79874-y
+
+Transcriptomic data:
+    Wu, SM., Tsai, WS., Chiang, SF. et al. Comprehensive transcriptome profiling of Taiwanese colorectal cancer implicates an ethnic basis for pathogenesis. Sci Rep 10, 4526 (2020). https://doi.org/10.1038/s41598-020-61273-y
 
 
 ## Environment Set-up
@@ -24,14 +34,49 @@ The metagenomics anlaysis consists of 5 distinct steps:
 4. Taxonomic Classification using MetaPhlAn3
 5. Metabolic Pathway analysis using HUMAnN3
 
-A bash script has been included to automate the process of running this analysis. This script can be found in the **Code** directory. Also included with this script is a text file containing sample SRA accession numbers to be downloaded. This file is required for the script to work properly. Thus, place **both the script and sample SRA accession file in the same directory** when running.
+A bash script has been included to automate the process of running this analysis. This script can be found in the **Code** directory. Also included with this script is a text file containing sample SRA accession numbers (PRJEB34333-Accessions.txt) to be downloaded as well as two other sample files (Metagenomics-Healthy-Samples.txt and Metagenomics-Tumor-Samples.txt) designating which samples are tumor and healthy tissue. These file is required for the script to work properly. Thus, place **both the script and sample accession text files in the same directory** when running.
 
 The script can be run in the following manner:
 ```
 conda activate bioi4980-analysis-env
 
+mkdir metagenomics-analysis/
+# move the script and all sample files into this folder
+
 source metagenomic-analysis.sh
 ```
+
+The script will generate the following file structure:
+```
+.
+└── metagenomics-analysis/
+    ├── rawData - Contains the raw and intermediate analysis data
+    ├── TaxClassResults/ - Contains the results of the Taxonomic Classification Analysis/
+    │   ├── HealthyResults/
+    │   │   ├── Combined-abundances.txt - contains merged abundances from all healthy samples
+    │   │   └── individual sample abundances
+    │   └── TumorResults/
+    │       ├── Combined-abundances.txt - contains merged abundances from all tumor
+    │       └── individual sample abundances
+    └── MetabolicPathwayResults/ - Contains the results of the Metabolic Pathway Analysis/
+        ├── TumorSamples/
+        │   └── individual tumor sample results
+        ├── HealthySamples/
+        │   └── individual healthy sample results
+        ├── healthyTissue_genefamilies.tsv
+        ├── healthyTissue_genefamilies-relab.tsv
+        ├── healthyTissue_pathcoverage.tsv
+        ├── healthyTissue_pathabundance.tsv
+        ├── tumorTissue_genefamilies.tsv
+        ├── tumorTissue_genefamilies-relab.tsv
+        ├── tumorTissue_pathcoverage.tsv
+        └── tumorTissue_pathabundance.tsv
+```
+
+Results of the Taxonomic Classification analysis can be found in the "Combined-abundances.txt" file for both samples.
+
+Results of the Metabolic Pathway analysis can be found in the .tsv files in the results folder.
+
 
 ## Transcriptomic Analysis
 
