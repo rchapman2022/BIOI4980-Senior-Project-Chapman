@@ -1,15 +1,15 @@
 # BIOI4980-Senior-Project-Chapman
 
 <p align="center">
-  <img style="background-color: rgb(300, 300, 300);" src="https://github.com/rchapman2022/BIOI4980-Senior-Project-Chapman/BIOI4980-Workflow.png">
+  <img style="background-color: rgb(300, 300, 300);" src="https://github.com/rchapman2022/BIOI4980-Senior-Project-Chapman/blob/main/BIOI4980-Workflow.png">
 </p>
 
 The goal of this project is to compare the microbiome composition and gene expression of Colorectal Cancer in hopes of identifying precursory mechanistic steps for pathogenesis. To accomplish this, both a metagenomic and transcriptomic analysis were conducted using data from published sources:
 
-Metagenomic data: 
+**Metagenomic data:** 
     Debesa-Tur, G., Pérez-Brocal, V., Ruiz-Ruiz, S. et al. Metagenomic analysis of formalin-fixed paraffin-embedded tumor and normal mucosa reveals differences in the microbiome of colorectal cancer patients. Sci Rep 11, 391 (2021). https://doi.org/10.1038/s41598-020-79874-y
 
-Transcriptomic data:
+**Transcriptomic data:**
     Wu, SM., Tsai, WS., Chiang, SF. et al. Comprehensive transcriptome profiling of Taiwanese colorectal cancer implicates an ethnic basis for pathogenesis. Sci Rep 10, 4526 (2020). https://doi.org/10.1038/s41598-020-61273-y
 
 
