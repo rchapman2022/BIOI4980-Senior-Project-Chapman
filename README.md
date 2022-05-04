@@ -50,7 +50,7 @@ The script will generate the following file structure:
 ```
 .
 └── metagenomics-analysis/
-    ├── rawData - Contains the raw and intermediate analysis data
+    ├── rawData/ - Contains the raw and intermediate analysis data
     ├── TaxClassResults/ - Contains the results of the Taxonomic Classification Analysis/
     │   ├── HealthyResults/
     │   │   ├── Combined-abundances.txt - contains merged abundances from all healthy samples
@@ -77,6 +77,32 @@ Results of the Taxonomic Classification analysis can be found in the "Combined-a
 
 Results of the Metabolic Pathway analysis can be found in the .tsv files in the results folder.
 
+### Visualization
+Once the taxonomic classification and metabolic pathway analyses have been complete, the data can be visualized using the Graphlan tool. This creates a circular representation of the organisms present in a sample. A bash script has been included to automate this analysis. **The script is dependent upon the taxonomic classification results (SEE SECTION ABOVE).** 
+
+The script can be run in the following manner (*File paths are based on metagenomics anlaysis output file structure (SEE SECTION ABOVE)*):
+```
+conda activate bioi4980-visualization-env
+
+
+# ENSURE THAT YOU ARE IN THE TaxClassResults Directory
+
+source metagenomic-visualization.sh
+```
+
+The script will generate .png images inside of the TumorSamples/ and HealthySamples/ Directories. Both a figure and a figure legend will be included:
+```
+.
+└── metagenomics-analysis/
+    ├── rawData - Contains the raw and intermediate analysis data
+    ├── TaxClassResults/ - Contains the results of the Taxonomic Classification Analysis/
+    │   ├── HealthyResults/
+    │   │   ├── HealthySamples.png - the circular graph
+    │   │   └── HealthySamples_legend.png - an external legend for the figure
+    │   └── TumorResults/
+    │       ├── TumorSamples.png - the circular graph
+    │       └── TumorSamples_legend.png - an exerternal legend for the figure
+```
 
 ## Transcriptomic Analysis
 
@@ -120,7 +146,7 @@ install.packages("dplyr")
 install.packages("tidyverse")
 ```
 
-Next, tt is important to note that these scripts **requires a specific file organization**. The file organization of the **Differential Expression Analysis** directory mimics the correct layout. 
+Next, it is important to note that these scripts **requires a specific file organization**. The file organization of the **Differential Expression Analysis** directory mimics the correct layout. 
 - Each subset's analysis should be conducted in its own directory named *Subset#*. 
 - The script for that subset, the the sample list for that subset, and the abundance.tsv files produced in the transcript quantification step should be placed in the directory. 
 - The script to identify the common differentially expressed gene identification should be placed in the parent directory containing the Subset folders.
