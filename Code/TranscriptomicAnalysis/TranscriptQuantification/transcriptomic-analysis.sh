@@ -3,6 +3,7 @@
 # Create a kallisto Index. First, download the latest ensembl Hg38 CDNA assembly.
 # Then create hte index using kallisto's built in functionality.
 wget http://ftp.ensembl.org/pub/release-105/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz
+gunzip Homo_sapiens.GRCh38.cdna.all.fa.gz
 kallisto index -i hg38idx Homo_sapiens.GRCh38.cdna.all.fa
 
 
