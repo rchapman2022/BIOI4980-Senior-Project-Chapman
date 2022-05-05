@@ -4,7 +4,7 @@
   <img style="background-color: rgb(300, 300, 300);" src="https://github.com/rchapman2022/BIOI4980-Senior-Project-Chapman/blob/main/BIOI4980-Workflow.png">
 </p>
 
-The goal of this project is to compare the microbiome composition and gene expression of Colorectal Cancer in hopes of identifying precursory mechanistic steps for pathogenesis. To accomplish this, both a metagenomic and transcriptomic analysis were conducted using data from published sources:
+The goal of this project is to compare the microbiome composition and gene expression of Colorectal Cancer in hopes of identifying precursory mechanistic steps for disease pathogenesis. To accomplish this, both a metagenomic and transcriptomic analysis were conducted using data from published sources:
 
 **Metagenomic data:** 
     Debesa-Tur, G., Pérez-Brocal, V., Ruiz-Ruiz, S. et al. Metagenomic analysis of formalin-fixed paraffin-embedded tumor and normal mucosa reveals differences in the microbiome of colorectal cancer patients. Sci Rep 11, 391 (2021). https://doi.org/10.1038/s41598-020-79874-y
@@ -15,7 +15,7 @@ The goal of this project is to compare the microbiome composition and gene expre
 
 ## Environment Set-up
 
-A separate analysis and visualization eviroment are included because the Graphlan and its associated packages conflicted with other packages in the analysis environment. Thus, YAML files for both conda enviroments can be found in the **Environments** directory.
+A separate analysis and visualization environment are included because the Graphlan package and its associated packages (used for visualization) conflicted with other packages in the analysis environment. Thus, YAML files for both conda environments can be found in the **Environments** directory.
 
 The following code can be used to create pre-configured conda environments:
 
@@ -27,14 +27,14 @@ conda env create -f visualization-env.yml
 
 ## Metagenomics Analysis
 
-The metagenomics anlaysis consists of 5 distinct steps:
+The metagenomics analysis consists of 5 distinct steps:
 1. Visualization of the QC data using FASTQC
 2. Quality Trimming using Trimmomatic
 3. Host read removal via Bowtie2
 4. Taxonomic Classification using MetaPhlAn3
 5. Metabolic Pathway analysis using HUMAnN3
 
-A bash script has been included to automate the process of running this analysis. This script can be found in the **Code** directory. Also included with this script is a text file containing sample SRA accession numbers (PRJEB34333-Accessions.txt) to be downloaded as well as two other sample files (Metagenomics-Healthy-Samples.txt and Metagenomics-Tumor-Samples.txt) designating which samples are tumor and healthy tissue. These file is required for the script to work properly. Thus, place **both the script and sample accession text files in the same directory** when running.
+A bash script has been included to automate the process of running this analysis. This script can be found in the **Code** directory. Also included with this script is a text file containing sample SRA accession numbers (PRJEB34333-Accessions.txt) to be downloaded as well as two other sample files (Metagenomics-Healthy-Samples.txt and Metagenomics-Tumor-Samples.txt) designating which samples are tumor and healthy tissue. These files are required for the script to work properly. Thus, place **both the script and sample accession text files in the same directory** when running.
 
 The script can be run in the following manner:
 ```
@@ -73,12 +73,12 @@ The script will generate the following file structure:
         └── tumorTissue_pathabundance.tsv
 ```
 
-Results of the Taxonomic Classification analysis can be found in the "Combined-abundances.txt" file for both samples.
+Results of the Taxonomic Classification analysis can be found in the "Combined-abundances.txt" file for both tissue types.
 
-Results of the Metabolic Pathway analysis can be found in the .tsv files in the results folder.
+Results of the Metabolic Pathway analysis can be found in the .tsv files in the MetabolicPathwayResults folder.
 
 ### Visualization
-Once the taxonomic classification and metabolic pathway analyses have been complete, the data can be visualized using the Graphlan tool. This creates a circular representation of the organisms present in a sample. A bash script has been included to automate this analysis. **The script is dependent upon the taxonomic classification results (SEE SECTION ABOVE).** 
+Once the taxonomic classification and metabolic pathway analyses have been complete, the data can be visualized using the Graphlan tool. This creates a circular representation of microbiome composition. A bash script has been included to automate this analysis. **The script is dependent upon the taxonomic classification results (SEE SECTION ABOVE).** 
 
 The script can be run in the following manner (*File paths are based on metagenomics anlaysis output file structure (SEE SECTION ABOVE)*):
 ```
@@ -105,13 +105,13 @@ The script will generate .png images inside of the TumorSamples/ and HealthySamp
 
 ## Transcriptomic Analysis
 
-The transcriptomic analysis was separated into to distinct steps:
-1. Read alignement and Transcript quantification
+The transcriptomic analysis was separated into two distinct steps:
+1. Read Alignement and Transcript Quantification
 2. Differential Expression and Pathway Analysis
 
-Additionally, it is important to note that, due to the size of the dataset and limitations regarding memory/storage, three distinct subsets consisting of 5 paired CRC and healthy tissue samples were analyzed separate from one another. The provided scripts take this into account.
+Additionally, it is important to note that, due to the size of the dataset and limitations regarding memory/storage, three distinct subsets consisting of 5 paired CRC and healthy tissue samples were analyzed separately from one another. The provided scripts take this into account.
 
-### Transcript Quantification
+### Read Alignment and Transcript Quantification
 
 Transcript Quantification is performed by kallisto, and consists of both a pseudoalignment and quantification step. A bash script has been included to automate the process of running this analysis. Because this analysis consisted of three subsets of data, the bash script will create a file structure to accommodate this. This script can be found in the **Code** directory. Also included are three text files containing SRA accession numbers for the samples in each subset. These files are required for the script to work properly. Thus, place **the script and SRA accession files all in the same directory** when running.
 
@@ -142,11 +142,11 @@ The script will create the following file structure:
     └── hg38idx - the kallisto index used for alignment
 ```
 
-Within each subset, the abundances directory contains the primary output of the transript quantification analysis. These files will be used for the following differential expression analysis (SEE SECTION BELOW)
+Within each subset, the abundances directory contains the primary output of the transcript quantification analysis. These files will be used for the following differential expression analysis (SEE SECTION BELOW).
 
 ### Differential Expression and Pathway Analysis
 
-The Differential Expression and Pathway analysis was performed using R. For each sample, an R script has been provided to automated the process of running these analyses. The scripts can be opened in R studio and walked through step by step to generate the results. As well, a sample list for each subset is also included Each of these files can be found in the respective **Subset** directory of the **Differential Expression Analysis** directory. As well, an R script to identify upregulated and downregulated genes common to the subsets is included in the **Differential Expression Analysis** directory (FindCommonGenes.R). 
+The Differential Expression and Pathway analyses were performed using R. For each sample, an R script has been provided to automate the process of running these analyses. The scripts can be opened in R studio and walked through step by step to generate the results. As well, a sample list for each subset is also included. Each of these files can be found in the respective **Subset** directory of the **Differential Expression Analysis** directory. As well, an R script to identify upregulated and downregulated genes common to the subsets is included in the **Differential Expression Analysis** directory (FindCommonGenes.R). 
 
 #### Dependencies
 Before using these scripts, the dependencies need to be installed:
@@ -165,7 +165,7 @@ install.packages("dplyr")
 install.packages("tidyverse")
 ```
 
-Next, it is important to note that these scripts **requires a specific file organization**:
+Next, it is important to note that these scripts **requires a specific file structure**:
 ```
 .
 ├── Differential-Expression analysis/
@@ -183,10 +183,10 @@ Next, it is important to note that these scripts **requires a specific file orga
     │   └── Subset3Samples.txt - a text file containing the sample file names and conditions
     └── FindCommonGenes.R
 ```
-The file organization of the **Differential Expression Analysis** directory mimics the correct layout. 
+The file organization of the **Differential Expression Analysis** directory of this repository mimics the correct layout. 
 - Each subset's analysis should be conducted in its own directory named *Subset#*. 
-- The script for that subset, the the sample list for that subset, and the abundance.tsv files produced in the transcript quantification step should be placed in the directory. 
-- The script to identify the common differentially expressed gene identification should be placed in the parent directory containing the Subset folders.
+- The script for that subset, the sample list for that subset, and the abundance.tsv files produced in the transcript quantification step should be placed in the directory. 
+- The script to identify the common differentially expressed gene identification should be placed in the parent directory containing the subset folders.
 
 #### Individual Sample Differential Expression
 The individual subset scripts should be run **before** the FindCommonGenes.R script, as the files created serve as the input for this script.
@@ -196,8 +196,8 @@ If opened in RStudio, the R scripts can be walked through to conduct the analysi
 After each analysis is complete, the following files will be added to each subset directory:
 - a .csv file containing differentially upregulated genes
 - a .csv file containing differentially downregulated genes
-- volcano plots for the differentially up and down regulated genes 
-- a folder containg the pathfindR results will be added to the subset directory.
+- volcano plots for the differentially upregulated and downregulated genes 
+- a folder containing the pathfindR results will be added to the subset directory.
 - a pathway enrichment plot for the top 15 enriched pathways
 
 ```
@@ -215,11 +215,11 @@ After each analysis is complete, the following files will be added to each subse
         └── Subset1EnrichedPathways.png
 ```
 #### Identify Common Genes
-The FindCommonGenes.R script will collect the up and down regulated genes from each subset and identify those in common between the samples
+The FindCommonGenes.R script will collect the upregulated and downregulated genes from each subset and identify those in common between the samples
 
 Again, if opened in RStudio, the R script can be walked through to conduct the analysis. 
 
-After this script is complete a list of the common, differentially up and down regulated genes will be added to the parent directory:
+After this script is complete a list of the common, differentially upregulated and downregulated genes will be added to the parent directory:
 ```
 .
 └── Differential-Expression analysis/
